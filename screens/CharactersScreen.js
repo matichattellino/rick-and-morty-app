@@ -42,7 +42,7 @@ const Characters = ( { navigation }) => {
 
   const characterData = data ? data['characters']['results'] : [];
   const { pages, next, prev, count } = data ? data['characters']['info'] : {};
-  const characters = !data ? [] : data.characters.results; 
+  //const characters = !data ? [] : data.characters.results; 
 
   console.log(next)
   console.log(prev)
@@ -57,7 +57,7 @@ const Characters = ( { navigation }) => {
         characters.type.toString().toLowerCase().includes(searchTerm)
     );
     setChars(results);
-  }, [searchTerm]);
+  }, [searchTerm, data]);
 
   const renderSeparator = () => {
       return (
@@ -67,33 +67,33 @@ const Characters = ( { navigation }) => {
           </View>
       )
   } 
-
   
-  //const onNext = () => paginate(data, fetchMore, next);
   const paginate = ()  => 
     fetchMore({
-        variables: { page: characters.length / 20 + 1 },
-        updateQuery: (previousResult, { fetchMoreResult }) => {
-           if (!fetchMoreResult) return previousResult;
-          //       return fetchMoreResult;
+        variables: { page: characterData.length / 20 + 1 },
+        updateQuery: (previousResult, { fetchMoreResult }) => {  
+         
           //Don't do anything if there weren't any new items
-           return {   
-              characters: {
-                __typename: 'characters',
-                results: [
-                  ...previousResult,
-                   ...previousResult.characters.results,
-                  ...fetchMoreResult.characters.results
-                ]
-              }  
-            };  
+          if (!fetchMoreResult) return previousResult;
+       
+          return {
+            characters: {
+              __typename: "Characters",
+              info: {
+                count,
+                next,
+                pages,
+                prev
+              },
+              results: [
+                ...previousResult.characters.results,
+                ...fetchMoreResult.characters.results
+              ]
+            }
+          }
         },
   });
-
-  
-  // const handleEnd = () => {
-  //   paginate()
-  // };
+  console.log(data);
 
   return (
     <View style={styles.center}>

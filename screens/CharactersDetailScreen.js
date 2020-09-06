@@ -15,22 +15,18 @@ const CharactersDetail = (item ) => {
               }}
             />
           </View>
-          <View style={{ padding: 10, width: 155}}>
-            <Text>Name:</Text>
-            <Text style={{ color: "#777", paddingTop: 2 }}>
-               {name}
+          <View style={{ padding: 10}}>
+            <Text style={{ color: "black", paddingTop: 2, textAlign: "center", justifyContent: "center" }}>
+                <Text>{name}</Text> 
             </Text>
-            <Text>Type:</Text>
-            <Text style={{ color: "#777", paddingTop: 2 }}>
-                {type ? type : "No type"}
+            <Text style={{ color: "black", paddingTop: 2 }}>
+               Type: <Text style={{ color: "#777"}}>{type ? type : "No type"}</Text> 
             </Text>
-            <Text>Gender:</Text>
-            <Text style={{ color: "#777", paddingTop: 2 }}>
-               {gender}
+            <Text style={{ color: "black", paddingTop: 2 }}>
+               Gender: <Text style={{ color: "#777"}}>{gender}</Text> 
             </Text>
-            <Text>Species:</Text>
-            <Text style={{ color: "#777", paddingTop: 2 }}>
-               {species}
+            <Text style={{ color: "black", paddingTop: 2 }}>
+               Species: <Text style={{ color: "#777"}}>{species}</Text> 
             </Text>
           </View>
         </View>

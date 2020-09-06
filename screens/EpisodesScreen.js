@@ -48,7 +48,34 @@ const Episodes = ({ navigation }) => {
           episodes.type.toString().toLowerCase().includes(searchTerm)
       );
       setEpisode(results);
-    }, [searchTerm]);
+    }, [searchTerm, data]);
+
+  const paginate = ()  => 
+    fetchMore({
+        variables: { page: episodesData.length / 20 + 1 },
+        updateQuery: (previousResult, { fetchMoreResult }) => {  
+         
+          //Don't do anything if there weren't any new items
+          if (!fetchMoreResult) return previousResult;
+       
+          return {
+            episodes: {
+              __typename: "Episodes",
+              info: {
+                count,
+                next,
+                pages,
+                prev
+              },
+              results: [
+                ...previousResult.episodes.results,
+                ...fetchMoreResult.episodes.results
+              ]
+            }
+          }
+        },
+  });
+  console.log(data);
   
     const renderSeparator = () => {
         return (
@@ -65,12 +92,13 @@ const Episodes = ({ navigation }) => {
             <SearchBar
               value={searchTerm}
               onChangeText={searchTerm => setSearchTerm(searchTerm)}
-              round
               onClear={() => setSearchTerm("")}
           /> 
           </View>
           <FlatList
               data={episode}
+              onEndReached={paginate}
+              onEndReachedThreshold={0.5}
               //ListHeaderComponent={renderHeader}
               renderItem={({ item }) => {
                 return (

@@ -47,7 +47,7 @@ const Locations = ( { navigation } ) => {
           episodes.type.toString().toLowerCase().includes(searchTerm)
       );
       setLocations(results);
-    }, [searchTerm]);
+    }, [searchTerm, data]);
   
     const renderSeparator = () => {
         return (
@@ -57,6 +57,34 @@ const Locations = ( { navigation } ) => {
             </View>
         )
     }   
+
+    
+  const paginate = ()  => 
+  fetchMore({
+      variables: { page: locationData.length / 20 + 1 },
+      updateQuery: (previousResult, { fetchMoreResult }) => {  
+       
+        //Don't do anything if there weren't any new items
+        if (!fetchMoreResult) return previousResult;
+     
+        return {
+          locations: {
+            __typename: "Locations",
+            info: {
+              count,
+              next,
+              pages,
+              prev
+            },
+            results: [
+              ...previousResult.locations.results,
+              ...fetchMoreResult.locations.results
+            ]
+          }
+        }
+      },
+});
+console.log(data);
     
     return (
         <View style={styles.center}>
@@ -71,6 +99,8 @@ const Locations = ( { navigation } ) => {
           <FlatList
               data={locations}
               //ListHeaderComponent={renderHeader}
+              onEndReached={paginate}
+              onEndReachedThreshold={0.5}
               renderItem={({ item }) => {
                 return (
                     <TouchableOpacity
