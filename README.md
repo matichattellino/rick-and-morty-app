@@ -9,5 +9,3 @@
 * App your terminal and selected this project in your pc
 * Open this project
 * yarn start or npm start
-
-## Preview 
