@@ -24,7 +24,14 @@ const Tab = createBottomTabNavigator();
 
 const BottomTabNavigation = () => {
     return (
-                <Tab.Navigator initialRouteName="Locations">
+                <Tab.Navigator 
+                    initialRouteName="Locations"
+                    tabBarOptions={{
+                      activeTintColor: '#405d27',
+                      labelPosition: "beside-icon",
+                      safeAreaInsets: "left"
+                    }}
+                >
                     <Tab.Screen name="Characters" component={CharactersScreen} />
                     <Tab.Screen name="Locations" component={LocationScreen} />
                     <Tab.Screen name="Episodes" component={EpisodesScreen} />
